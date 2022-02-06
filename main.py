@@ -5,7 +5,7 @@ import yfinance as yf
 
 
 # Set the ticker
-ticker = "AMZN"
+ticker = "TCS"
 
 print(ticker)
 
