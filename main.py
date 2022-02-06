@@ -1,8 +1,11 @@
 import yfinance as yf
-import sys
+
+
+
+
 
 # Set the ticker
-ticker = sys.argv[0]
+ticker = "AMZN"
 
 print(ticker)
 
@@ -15,3 +18,5 @@ data = yf.download(ticker, start_date, end_date)
 
 # Print 5 rows
 data.tail()
+
+
