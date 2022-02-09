@@ -35,7 +35,7 @@ ma_dict = dict(zip(moving_averages_tf,moving_averages))
 
 for k,v in ma_dict.items():
     price_diff = p.get_diff_current_price_ma(current_price,v)
-    if(min_diff_to_get_notified <= price_diff):
+    if(min_diff_to_get_notified <= price_diff >= 0):
         n.send_notification(k)
         
 
