@@ -1,12 +1,12 @@
-from pandas import Interval
 import yfinance as yf
-
 import download as d
 import process as p
 import notify as n
+import seggragate as s
+import storageservice 
 
 # Set the ticker
-ticker = "SBIN.NS"
+ticker = "INFY.NS"
 
 print(ticker)
 
@@ -37,7 +37,28 @@ for k,v in ma_dict.items():
     price_diff = p.get_diff_current_price_ma(current_price,v)
     if(min_diff_to_get_notified <= price_diff >= 0):
         n.send_notification(k)
-        
+
+s.get_avg_volumn(data=data['Volume'])     
+
+mongo_connection = storageservice.get_database_connection()
+
+dbs = mongo_connection['tradedata']
+
+db_collecions = dbs.get_collection('ticker_interval_price')
+data.insert(0,"Ticker Name", [ticker]*data['Close'].count())
+data.insert(1,"Interval", [interval]*data['Close'].count())
+data.reset_index(inplace=True)
+data_dict = data.to_dict("records")
+
+db_collecions.insert_many(data_dict)
+
+db_collecions.find_one()
+
+last_row = storageservice.get_last_row_for_ticker_and_interval(ticker,interval)
+
+print(last_row)
+
+
 
 
 
